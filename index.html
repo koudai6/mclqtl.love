@@ -198,6 +198,24 @@ button,input,textarea{font:inherit;color:inherit;border:0;background:none;outlin
 .mi img{width:100%;height:100%;object-fit:cover}
 .mi b{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(40,60,90,.55);color:#fff;display:grid;place-items:center;font-size:14px}
 .mi.add{display:grid;place-items:center;font-size:30px;color:var(--ink2);cursor:pointer}
+.m.s.qz,.m.t.qz{min-width:230px;max-width:88%;background:rgba(255,255,255,.92);padding:12px 14px}
+.qzt{font-weight:700;margin-bottom:6px}
+.qzq{margin-bottom:10px}.qzh{font-size:14px;margin-bottom:5px}.qzh small{display:inline;color:var(--ink2);margin-left:4px;font-size:11px}
+.qzo{padding:6px 10px;border-radius:10px;background:rgba(125,147,178,.14);margin-top:4px;font-size:13px}
+.qzo.on{background:var(--acc);color:#fff}
+.qza{padding:6px 10px;border-radius:10px;background:rgba(150,185,230,.35);font-size:13px;white-space:pre-wrap;word-break:break-all}
+.qzf{font-size:11px;color:var(--ink2);margin-top:2px}
+.qi{width:100%;box-sizing:border-box;border:1.5px solid #e6e6ee;border-radius:22px;padding:13px 16px;font-size:15px;background:#fff;color:#1a1a1a;margin:0 0 10px;font-family:inherit;outline:none}
+.qc{border:1.5px solid #e6e6ee;border-radius:26px;padding:16px;margin-bottom:14px;background:#fff}
+.qh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;font-weight:700;color:#8e8e93;letter-spacing:.5px}
+.qx{color:#ff3b30;font-weight:600;font-size:14px}
+.qor{display:flex;align-items:center;gap:6px}.qor .qi{flex:1;min-width:0}
+.ox{width:32px;color:#8e8e93;font-size:18px;text-align:center;margin-bottom:10px}
+.qad{display:block;width:100%;border:1.5px dashed #c8c8d0;border-radius:22px;padding:13px;font-weight:600;color:#1a1a1a;background:transparent;margin-bottom:12px}
+.qseg{display:flex;border:1.5px solid #1a1a1a;border-radius:22px;overflow:hidden}
+.qseg span{flex:1;text-align:center;padding:11px 0;font-weight:600;color:#1a1a1a;background:#fff;cursor:pointer}
+.qseg span.on{background:#1a1a1a;color:#fff}
+.qaq{display:block;width:100%;border:1.5px solid #1a1a1a;border-radius:22px;padding:13px;font-weight:700;background:#fff;color:#1a1a1a;margin-bottom:12px}
 .mcov{position:relative;height:250px;margin:-4px -14px 0;background:linear-gradient(160deg,#a9c6ea,#7f9fd1) center/cover no-repeat;cursor:pointer}
 .mwho{position:absolute;right:14px;bottom:-26px;display:flex;align-items:flex-end;gap:10px}
 .mwho span{color:#fff;font-weight:700;font-size:17px;text-shadow:0 1px 5px rgba(0,0,0,.5);margin-bottom:32px}
@@ -286,7 +304,7 @@ button,input,textarea{font:inherit;color:inherit;border:0;background:none;outlin
 /* ===== 存储：IndexedDB + localStorage 备份 ===== */
 const $=id=>document.getElementById(id);
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-const DEF_CFG={min:5,max:40,cmin:1,cmax:3,emoji:20,quote:20,pat:13,transfer:13,accept:80,tron:true,mlike:80,mcm:60,mrep:50,mdmin:1,mdmax:5,mgap:10,mprob:60,mcmin:1,mcmax:3,mimg:30,mpin:true,callp:5,calla:80,pmin:1,pmax:3,dgap:24,dprob:70,dsmin:2,dsmax:5,lmin:1,lmax:5,lreply:70,lgap:48,lprob:50,lcmin:6,lcmax:14,lpin:true,tgap:12,tprob:60,tnmin:1,tnmax:2,tcmin:1,tcmax:3,tdays:3,tpin:true};
+const DEF_CFG={min:5,max:40,cmin:1,cmax:3,emoji:20,quote:20,pat:13,transfer:13,accept:80,tron:true,mlike:80,mcm:60,mrep:50,mdmin:1,mdmax:5,mgap:10,mprob:60,mcmin:1,mcmax:3,mimg:30,mpin:true,callp:5,calla:80,pmin:1,pmax:3,dgap:24,dprob:70,dsmin:2,dsmax:5,lmin:1,lmax:5,lreply:70,lgap:48,lprob:50,lcmin:6,lcmax:14,lpin:true,tgap:12,tprob:60,tnmin:1,tnmax:2,tcmin:1,tcmax:3,tdays:3,tpin:true,qprob:10,qgap:20,qexp:60,qn:1};
 let G={cards:[],groups:[{id:'g0',name:'默认',on:true}],msgs:[],letters:[],diary:[],moms:[],stickers:[],
   prof:{name:'对方',avatar:'',me:'我',myAvatar:''},cfg:{...DEF_CFG},font:'',bg:'',chatBg:'',sys:{keep:false,notify:false},unread:0};
 const kv={db:null,
@@ -339,9 +357,10 @@ document.addEventListener('click',e=>{
 });
 function go(k){({chat:openChat,cards:openCards,letter:openLetter,diary:openDiary,pyq:openMom,sticker:openStk,look:openLook,cfg:openCfg,data:openData})[k]()}
 function gen(title,add){open('p-gen');$('gt').textContent=title;$('gadd').style.visibility=add?'visible':'hidden';$('gadd').onclick=add||null;return $('gb')}
-function dlg(html,after){$('box').innerHTML=html;$('mask').classList.add('on');after&&after($('box'))}
-const shut=()=>$('mask').classList.remove('on');
-$('mask').addEventListener('click',e=>{if(e.target===$('mask'))shut()});
+function dlg(html,after){$('mask').dataset.lock='';qzOpen=null;$('box').innerHTML=html;$('mask').classList.add('on');after&&after($('box'))}
+let qzOpen=null;
+const shut=()=>{$('mask').classList.remove('on');$('mask').dataset.lock='';qzOpen=null};
+$('mask').addEventListener('click',e=>{if(e.target===$('mask')&&!$('mask').dataset.lock)shut()});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function pickImg(cb,max=900){const f=$('fi');f.accept='image/*';f.onchange=()=>{const x=f.files[0];f.value='';if(!x)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.82))};im.src=r.result};r.readAsDataURL(x)};f.click()}
 const fmt=t=>{const d=new Date(t);return`${d.getMonth()+1}月${d.getDate()}日 ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`};
@@ -358,6 +377,8 @@ function msgCore(m,i){
   if(m.type==='call')return`<div class="ds">${esc(m.text)}</div>`;
   if(m.type==='transfer'||m.type==='redpacket')return payHtml(m,i);
   if(m.type==='pat')return`<div class="ds">${esc(m.text)}</div>`;
+  if(m.type==='quiz')return`<div class="m s qz" data-i="${i}">${m.title?`<div class="qzt">${esc(m.title)}</div>`:''}${m.qs.map((q,qi)=>{const sel=m.st==='done'?m.ans[qi]:[];return`<div class="qzq"><div class="qzh">${qi+1}. ${esc(q.q)}<small>${q.t==='multi'?'多选':'单选'}</small></div>${q.o.map((o,oi)=>`<div class="qzo${sel.includes(oi)?' on':''}">${sel.includes(oi)?'✓ ':''}${esc(o)}</div>`).join('')}</div>`}).join('')}<div class="qzf">${m.st==='done'?'对方已回答':'等待对方回答…'}</div></div>`;
+  if(m.type==='quizq')return`<div class="m t qz" data-i="${i}"><div class="qzt">问卷</div>${m.qs.map((q,qi)=>`<div class="qzq"><div class="qzh">${qi+1}. ${esc(q.q)}</div>${m.st==='done'?`<div class="qza">${esc(q.a)}</div>`:''}</div>`).join('')}<div class="qzf">${m.st==='open'?`<span class="qcd" data-exp="${m.exp}">${Math.max(0,Math.ceil((m.exp-Date.now())/1000))}秒后失效</span> · 点击回答`:m.st==='done'?'已回答':'已失效，不能回答'}</div></div>`;
   const c=m.mine?'s':'t';let b='';
   if(m.reply)b+=`<div class="q">${esc(m.reply)}</div>`;
   if(m.type==='image')return`<div class="m ${c} pic${m.st?' stk':''}" data-i="${i}"><img src="${m.src}"></div>`;
@@ -365,7 +386,7 @@ function msgCore(m,i){
   return`<div class="m ${c}" data-i="${i}">${b}${esc(m.text)}</div>`}
 function renderMsgs(){
   let h='',pd='';
-  G.msgs.forEach((m,i)=>{const d=new Date(m.t).toDateString();if(d!==pd){pd=d;h+=`<div class="ds">${fmt(m.t)}</div>`}h+=msgHtml(m,i)});
+  G.msgs.forEach((m,i)=>{if(m.type==='quizq'&&m.st==='open')return;const d=new Date(m.t).toDateString();if(d!==pd){pd=d;h+=`<div class="ds">${fmt(m.t)}</div>`}h+=msgHtml(m,i)});
   if(typing)h+=`<div class="ds">正在输入…</div>`;
   $('msgs').innerHTML=h;const b=$('msgbody');b.scrollTop=b.scrollHeight}
 function push(m){m.t=Date.now();m.id=uid();G.msgs.push(m);const inChat=$('p-chat').classList.contains('on');
@@ -397,11 +418,12 @@ async function reply(){
   renderMsgs();
   if(!call&&Math.random()*100<c.callp)setTimeout(ring,1500)}
 const v0=()=>false;
-$('plus').onclick=()=>dlg(`<div class="sheet"><button class="btn" id="a1">发送图片</button><button class="btn" id="a2">发送表情包</button><button class="btn" id="a3">发送表情符号</button>${G.cfg.tron!==false?'<button class="btn" id="a5">转账</button>':''}<button class="btn" id="a4">空发送（让对方主动说话）</button></div>`,b=>{
+$('plus').onclick=()=>dlg(`<div class="sheet"><button class="btn" id="a1">发送图片</button><button class="btn" id="a2">发送表情包</button><button class="btn" id="a3">发送表情符号</button>${G.cfg.tron!==false?'<button class="btn" id="a5">转账</button>':''}<button class="btn" id="a6">发问卷（对方回答）</button><button class="btn" id="a4">空发送（让对方主动说话）</button></div>`,b=>{
   b.querySelector('#a1').onclick=()=>{shut();pickImg(s=>{push({mine:true,type:'image',src:s});reply()})};
   b.querySelector('#a2').onclick=()=>{shut();showStk(true)};
   b.querySelector('#a3').onclick=()=>{b.innerHTML=`<div class="row">${'😀 🥺 😭 😡 ❤️ 💙 🌙 ✨ 🌸 🐱 🐰 🫶'.split(' ').map(e=>`<span style="font-size:32px" data-e="${e}">${e}</span>`).join('')}</div>`;b.onclick=e=>{const t=e.target.dataset.e;if(t){shut();b.onclick=null;push({mine:true,type:'emoji',text:t});reply()}}};
   b.querySelector('#a4').onclick=()=>{shut();reply()};
+  b.querySelector('#a6').onclick=()=>{shut();quizDlg()};
   const a5=b.querySelector('#a5');if(a5)a5.onclick=()=>payDlg()});
 $('cset').onclick=()=>dlg(`<input class="ti" id="n1" placeholder="对方昵称" value="${esc(G.prof.name)}"><input class="ti" id="n2" placeholder="我的昵称" value="${esc(G.prof.me)}"><div class="row"><button class="btn" id="b1">对方头像</button><button class="btn" id="b2">我的头像</button></div><div class="row"><button class="btn" id="b3">更换聊天背景</button><button class="btn" id="b4">恢复默认</button></div><div class="row"><button class="btn p" id="ok">保存</button><button class="btn" id="cl">清空聊天</button></div>`,b=>{
   b.querySelector('#b1').onclick=()=>pickImg(s=>{G.prof.avatar=s;save();toast('已更换')},300);
@@ -414,7 +436,7 @@ function copyTxt(t){const done=()=>toast('已复制');const fb=()=>{const a=docu
   if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(done,fb);else fb()}
 /* 消息：点按 → 我发的：引用/复制/修改/删除；对方发的：引用/复制/删除 */
 $('msgs').addEventListener('click',e=>{
-  const el=e.target.closest('[data-i]');if(!el)return;const i=+el.dataset.i,m=G.msgs[i];if(m.status==='pending'&&!m.mine)return payAct(m);
+  const el=e.target.closest('[data-i]');if(!el)return;const i=+el.dataset.i,m=G.msgs[i];if(m.status==='pending'&&!m.mine)return payAct(m);if(m.type==='quizq'&&m.st==='open')return quizAnswer(m);
   dlg(`<div class="sheet">${m.text?'<button class="btn" id="q">引用</button><button class="btn" id="c">复制</button>':''}${m.text&&m.mine?'<button class="btn" id="e">修改</button>':''}<button class="btn" id="d">删除</button></div>`,b=>{
     const q=b.querySelector('#q'),c=b.querySelector('#c'),ed=b.querySelector('#e');
     if(q)q.onclick=()=>{quote=m.text.slice(0,40);shut();$('ta').focus()};
@@ -423,11 +445,80 @@ $('msgs').addEventListener('click',e=>{
     b.querySelector('#d').onclick=()=>{G.msgs.splice(i,1);save();shut();renderMsgs()}})});
 
 /* ===== 字卡库 ===== */
-let curG='all';
+let curG='all',libTab='c';
+/* ===== 问卷 ===== */
+const QP=()=>G.qpool||(G.qpool=[]);
+function qAddDlg(){
+  dlg(`<div style="font-weight:700;margin-bottom:8px">添加问题</div><textarea class="ta" id="qa" placeholder="一行一个问题，可批量粘贴，自动去重"></textarea><button class="btn p" id="ok">保存</button>`,b=>{
+    b.querySelector('#ok').onclick=()=>{const seen=new Set(QP().map(x=>x.text));let add=0,skip=0;
+      b.querySelector('#qa').value.split('\n').map(s=>s.trim()).filter(Boolean).forEach(s=>{if(seen.has(s)){skip++;return}seen.add(s);QP().push({id:uid(),text:s,on:true});add++});
+      toast(add||skip?`添加 ${add} 个`+(skip?`，跳过重复 ${skip} 个`:''):'没有内容');save();shut();window.__qdraw&&window.__qdraw()}})}
+function qItemDlg(x){
+  dlg(`<div class="sheet"><button class="btn" id="e">修改</button><button class="btn" id="t">${x.on===false?'启用':'停用'}</button><button class="btn" id="d">删除</button></div>`,b=>{
+    b.querySelector('#e').onclick=()=>{b.innerHTML=`<textarea class="ta" id="et">${esc(x.text)}</textarea><button class="btn p" id="eo">保存</button>`;
+      b.querySelector('#eo').onclick=()=>{const v=b.querySelector('#et').value.trim();if(!v)return toast('内容不能为空');if(QP().some(y=>y!==x&&y.text===v))return toast('已有相同问题');x.text=v;save();shut();window.__qdraw()}};
+    b.querySelector('#t').onclick=()=>{x.on=x.on===false;save();shut();window.__qdraw()};
+    b.querySelector('#d').onclick=()=>{G.qpool=QP().filter(y=>y!==x);save();shut();window.__qdraw()}})}
+/* 我发问卷，对方单选/多选作答 */
+function quizDlg(){
+  let title='',dmin=3,dmax=10,qs=[{q:'',t:'single',o:['','']}],foc=null;
+  const draw=()=>dlg(`<div style="font-weight:700;margin-bottom:10px">发问卷</div><input class="qi" id="qt" placeholder="问卷标题（可不填）" value="${esc(title)}">${qs.map((x,i)=>`<div class="qc"><div class="qh"><span>Q${i+1}</span>${qs.length>1?`<button class="qx" data-rmq="${i}">删除问题</button>`:'<span></span>'}</div><input class="qi qq" data-qi="${i}" placeholder="问题，例如：晚饭吃什么" value="${esc(x.q)}">${x.o.map((o,oi)=>`<div class="qor"><input class="qi qo" data-qi="${i}" data-oi="${oi}" placeholder="选项 ${oi+1}" value="${esc(o)}"><button class="ox" data-rmo="${oi}" data-qi="${i}">✕</button></div>`).join('')}<button class="qad" data-ao="${i}">＋ 添加选项</button><div class="qseg"><span class="${x.t==='single'?'on':''}" data-t="single" data-qi="${i}">单选</span><span class="${x.t==='multi'?'on':''}" data-t="multi" data-qi="${i}">多选</span></div></div>`).join('')}<button class="qaq" id="qadd">＋ 添加问题</button><div class="row" style="flex-wrap:nowrap;align-items:center"><span style="white-space:nowrap">对方用时</span><input class="qi" id="qmin" type="number" style="margin:0;width:64px;padding:10px" value="${dmin}"><span>到</span><input class="qi" id="qmax" type="number" style="margin:0;width:64px;padding:10px" value="${dmax}"><span>秒</span></div><button class="btn p" id="qsend">发送</button>`,b=>{
+    const sync=()=>{title=b.querySelector('#qt').value;b.querySelectorAll('.qq').forEach(e=>qs[+e.dataset.qi].q=e.value);b.querySelectorAll('.qo').forEach(e=>qs[+e.dataset.qi].o[+e.dataset.oi]=e.value);dmin=Math.max(0,+b.querySelector('#qmin').value||0);dmax=Math.max(dmin,+b.querySelector('#qmax').value||0)};
+    if(foc){const e=b.querySelector(foc);foc=null;if(e)e.focus()}
+    b.onclick=e=>{const t=e.target.closest('button,span[data-t]')||e.target,d=t.dataset;
+      if(d.t){sync();qs[+d.qi].t=d.t;draw()}
+      else if(d.rmq!==undefined){sync();qs.splice(+d.rmq,1);draw()}
+      else if(d.rmo!==undefined){sync();const q=qs[+d.qi];if(q.o.length>2)q.o.splice(+d.rmo,1);else q.o[+d.rmo]='';draw()}
+      else if(d.ao!==undefined){sync();const q=qs[+d.ao];if(q.o.length>=8)return toast('最多 8 个选项');q.o.push('');foc=`.qo[data-qi="${d.ao}"][data-oi="${q.o.length-1}"]`;draw()}
+      else if(t.id==='qadd'){sync();if(qs.length>=10)return toast('最多 10 个问题');qs.push({q:'',t:'single',o:['','']});foc=`.qq[data-qi="${qs.length-1}"]`;draw()}
+      else if(t.id==='qsend'){sync();
+        const out=[];for(let i=0;i<qs.length;i++){const q=qs[i].q.trim();const o=[...new Set(qs[i].o.map(s=>s.trim()).filter(Boolean))];
+          if(!q)return toast(`第 ${i+1} 题还没写问题`);if(o.length<2)return toast(`第 ${i+1} 题至少 2 个选项`);
+          out.push({q,t:qs[i].t,o})}
+        const dd=dmin+Math.random()*(dmax-dmin);
+        shut();push({mine:true,type:'quiz',title:title.trim(),qs:out,dmin,dmax,st:'wait',due:Date.now()+dd*1000,ans:null})}}})
+  draw()}
+function quizPick(q){const n=q.o.length;if(q.t!=='multi')return[Math.floor(Math.random()*n)];
+  const idx=[...Array(n).keys()].sort(()=>Math.random()-.5);return idx.slice(0,1+Math.floor(Math.random()*n)).sort((a,b)=>a-b)}
+/* 对方按概率发问卷，我用文字回答，超时失效 */
+function sendQuizQ(){
+  const ps=QP().filter(x=>x.on!==false);if(!ps.length)return false;
+  const n=Math.min(ps.length,Math.max(1,Math.round(G.cfg.qn||1))),pick=[...ps].sort(()=>Math.random()-.5).slice(0,n);
+  const m={mine:false,type:'quizq',qs:pick.map(x=>({q:x.text,a:''})),st:'open',exp:Date.now()+Math.max(1,G.cfg.qexp||60)*1000};
+  push(m);
+  if($('p-chat').classList.contains('on')&&document.visibilityState==='visible'&&!$('mask').classList.contains('on'))quizAnswer(m);
+  return true}
+function quizAnswer(m){
+  if(m.st==='done')return toast('已经回答过了');
+  if(m.st!=='open'||Date.now()>m.exp){if(m.st==='open'){m.st='expired';save();renderMsgs()}return toast('问卷已失效，不能回答')}
+  dlg(`<div style="font-weight:700;margin-bottom:4px">问卷</div><div class="ds" style="text-align:left;margin-bottom:10px"><span class="qcd" data-exp="${m.exp}">${Math.max(0,Math.ceil((m.exp-Date.now())/1000))}秒后失效</span></div>${m.qs.map((q,i)=>`<div style="margin-bottom:4px">${i+1}. ${esc(q.q)}</div><textarea class="ta qans" data-qi="${i}" style="min-height:70px" placeholder="写下你的回答"></textarea>`).join('')}<button class="btn p" id="qok">提交</button>`,b=>{
+    $('mask').dataset.lock='1';qzOpen=m;
+    b.querySelector('.qans').focus();
+    b.querySelector('#qok').onclick=()=>{
+      if(Date.now()>m.exp){m.st='expired';save();shut();renderMsgs();return toast('问卷已失效，不能回答')}
+      const as=[...b.querySelectorAll('.qans')].map(e=>e.value.trim());if(as.some(a=>!a))return toast('每道题都要回答');
+      as.forEach((a,i)=>m.qs[i].a=a);m.st='done';save();shut();renderMsgs()}})}
+let qLast=Date.now();
+function quizRandom(){
+  const c=G.cfg,now=Date.now();if(now-qLast<Math.max(1,c.qgap||20)*1000)return;qLast=now;
+  if(!$('p-chat').classList.contains('on')||document.visibilityState!=='visible'||typing||$('mask').classList.contains('on'))return;
+  if(G.msgs.some(x=>x.type==='quizq'&&x.st==='open'))return;
+  if(Math.random()*100<(c.qprob||0))sendQuizQ()}
+function tickQuiz(){quizRandom();
+  const now=Date.now();let ch=0;
+  G.msgs.slice().forEach(m=>{
+    if(m.type==='quiz'&&m.st==='wait'&&m.due<=now){m.ans=m.qs.map(quizPick);m.st='done';ch=1;push({mine:false,type:'pat',text:'对方回答了问卷'+(m.title?'「'+m.title+'」':'')})}
+    if(m.type==='quizq'&&m.st==='open'&&m.exp<=now){m.st='expired';ch=1;if(qzOpen===m){shut();toast('问卷已失效')}}});
+  const pend=G.msgs.find(x=>x.type==='quizq'&&x.st==='open'&&x.exp>now);
+  if(pend&&$('p-chat').classList.contains('on')&&document.visibilityState==='visible'&&!$('mask').classList.contains('on'))quizAnswer(pend);
+  if(ch){save();if($('p-chat').classList.contains('on'))renderMsgs()}
+  document.querySelectorAll('.qcd[data-exp]').forEach(e=>{const s=Math.ceil((+e.dataset.exp-now)/1000);e.textContent=s>0?s+'秒后失效':'已失效'})}
+
+
 function openCards(){
-  const b=gen('字卡库',()=>cardDlg());
+  libTab='c';const b=gen('字卡库',()=>libTab==='q'?qAddDlg():cardDlg());
   let q='',multi=false,sel=new Set();
-  b.innerHTML=`<input class="ti" id="sq" placeholder="搜索字卡" autocomplete="off"><div class="row" id="gr"></div><div class="row" id="tb"></div><div id="ls"></div><div class="row glass" id="sb" style="display:none;position:sticky;bottom:0;padding:10px;border-radius:20px;justify-content:center;margin:0"></div>`;
+  b.innerHTML=`<div class="row" id="lt"><span class="chip on" data-lt="c">字卡</span><span class="chip" data-lt="q">问题</span></div><div id="cw"><input class="ti" id="sq" placeholder="搜索字卡" autocomplete="off"><div class="row" id="gr"></div><div class="row" id="tb"></div><div id="ls"></div><div class="row glass" id="sb" style="display:none;position:sticky;bottom:0;padding:10px;border-radius:20px;justify-content:center;margin:0"></div></div><div id="qw" style="display:none"></div>`;
   const $q=s=>b.querySelector(s);
   const view=()=>{const k=q.trim().toLowerCase();return G.cards.filter(c=>(curG==='all'||c.group===curG)&&(!k||(c.type==='text'&&c.content.toLowerCase().includes(k))))};
   const drawBar=()=>{
@@ -442,8 +533,14 @@ function openCards(){
     if(multi)sb.innerHTML=`<button class="btn" id="sa">${list.length&&sel.size===list.length?'取消全选':'全选'}</button><button class="btn" id="sg">切换分组</button><button class="btn p" id="sd">删除</button>`;
   };
   const draw=()=>{drawBar();drawList()};
+  const drawQ=()=>{const l=QP().map(x=>`<div class="card glass" data-q="${x.id}" style="${x.on===false?'opacity:.55':''}">${esc(x.text)}${x.on===false?'<small>已停用</small>':''}</div>`).join('');
+    $q('#qw').innerHTML=`<div class="ds" style="text-align:left;margin-bottom:10px">对方会按概率从这里抽问题发给你，点右上角 + 添加，一行一个。概率、失效时间在设置里调。</div>`+(l||'<div class="ds" style="text-align:center;padding:30px">还没有问题</div>')};
+  const drawTab=()=>{const q=libTab==='q';$q('#cw').style.display=q?'none':'';$q('#qw').style.display=q?'':'none';b.querySelectorAll('[data-lt]').forEach(x=>x.classList.toggle('on',x.dataset.lt===libTab));if(q)drawQ()};
+  window.__qdraw=drawQ;
   $q('#sq').oninput=e=>{q=e.target.value;drawList()};
   b.onclick=e=>{const t=e.target,g=t.closest('[data-g]'),c=t.closest('[data-c]');
+    const lt=t.closest('[data-lt]');if(lt){libTab=lt.dataset.lt;drawTab();return}
+    if(libTab==='q'){const qi=t.closest('[data-q]');if(qi){const x=QP().find(y=>y.id===qi.dataset.q);if(x)qItemDlg(x)}return}
     if(g){curG=g.dataset.g;sel.clear();draw()}
     else if(t.id==='mm'){multi=!multi;sel.clear();drawList()}
     else if(t.id==='sa'){const l=view();if(sel.size===l.length)sel.clear();else l.forEach(x=>sel.add(x.id));drawList()}
@@ -796,6 +893,7 @@ function openCfg(){
     sec('传信（对方）',f('lreply','回信概率%')+f('lmin','回信等待下限(分钟)')+f('lmax','回信等待上限(分钟)')+f('lgap','主动写信间隔(小时,0=不写)')+f('lprob','到点就写的概率%')+f('lcmin','每封最少用几张字卡')+f('lcmax','每封最多用几张字卡')+`<div class="row"><span class="chip ${c.lpin?'on':''}" id="tl">${c.lpin?'拼字卡：已开启':'拼字卡：已关闭（一张一行）'}</span></div>`)+
     sec('内容概率',f('emoji','图片/表情%')+f('quote','引用%'))+
     sec('转账红包',`<div class="row"><span class="chip ${c.tron!==false?'on':''}" id="ttr">${c.tron!==false?'转账红包：已开启':'转账红包：已关闭'}</span></div>`+f('transfer','对方发起%')+f('accept','对方收款%'))+
+    sec('问卷（对方发给我，文字回答）',f('qgap','聊天时每隔几秒抽一次')+f('qprob','每次抽中概率%')+f('qexp','问卷几秒后失效')+f('qn','每份几道题')+`<div class="row"><span class="chip" id="qnow">现在就弹一份</span></div><div class="ds" style="text-align:left">问题在字卡库的“问题”页里添加</div>`)+
     sec('通话',f('callp','对方来电%')+f('calla','对方接听%'))+
     sec('后台保活',`<div class="row"><span class="chip ${G.sys.keep?'on':''}" id="tk">${G.sys.keep?'已开启':'已关闭'}</span><span class="chip" id="tk2">测试保活</span></div><div class="ds" id="kst" style="text-align:left"></div>`)+
     sec('弹窗通知',`<div class="row"><span class="chip ${G.sys.notify?'on':''}" id="tn">${G.sys.notify?'已开启':'已关闭'}</span><span class="chip" id="tp">测试站内弹窗</span><span class="chip" id="ts">测试系统通知</span></div>`);
@@ -806,6 +904,7 @@ function openCfg(){
     if(id==='tt'){c.tpin=!c.tpin;save();openCfg()}
     if(id==='tmp'){c.mpin=!c.mpin;save();openCfg()}
     if(id==='tmw'){if(writeOtherMom())toast('对方发了一条朋友圈')}
+    if(id==='qnow'){toast(sendQuizQ()?'已发送一份问卷':'字卡库的“问题”页里还没有问题')}
     if(id==='tw'){if(writeOtherTodos(1))toast('对方在日历里写了一条')}
     if(id==='tk'){G.sys.keep=!G.sys.keep;save();keepSet();openCfg()}
     if(id==='tk2'){if(!ka){ka=new Audio(silent());ka.loop=true}ka.play().then(()=>{media();$('kst').textContent='保活音频播放中，切到后台后锁屏会出现媒体卡片'}).catch(()=>{$('kst').textContent='被系统拦截，请再点一次'})}
@@ -828,8 +927,8 @@ function openData(){
   b.onclick=e=>{
     if(e.target.id==='ea'){flush();dl({format:'zk-home-backup',version:1,state:G},`字卡备份_${d}.json`)}
     if(e.target.id==='ia')pickJSON(j=>{const s=j.state||j;if(!s.cards||!confirm('覆盖当前全部数据？'))return;G={...G,...s};save();flush();G.sys=G.sys||{keep:false,notify:false};G.cfg={...DEF_CFG,...G.cfg};applyLook();homeInit();badge();toast('已导入')});
-    if(e.target.id==='ec')dl({format:'zk-cards',cards:G.cards,groups:G.groups},`字卡库_${d}.json`);
-    if(e.target.id==='ic')pickJSON(j=>{if(!j.cards)return toast('不是字卡文件');j.groups.forEach(g=>{if(!G.groups.some(x=>x.id===g.id))G.groups.push(g)});const have=new Set(G.cards.map(c=>c.id));let sk=0;j.cards.forEach(c=>{if(have.has(c.id))return;if(G.cards.some(x=>x.type===c.type&&x.content===c.content)){sk++;return}G.cards.push(c)});save();toast('已合并导入'+(sk?'，跳过重复 '+sk+' 张':''))})}}
+    if(e.target.id==='ec')dl({format:'zk-cards',cards:G.cards,groups:G.groups,qpool:QP()},`字卡库_${d}.json`);
+    if(e.target.id==='ic')pickJSON(j=>{if(!j.cards)return toast('不是字卡文件');j.groups.forEach(g=>{if(!G.groups.some(x=>x.id===g.id))G.groups.push(g)});const have=new Set(G.cards.map(c=>c.id));let sk=0;j.cards.forEach(c=>{if(have.has(c.id))return;if(G.cards.some(x=>x.type===c.type&&x.content===c.content)){sk++;return}G.cards.push(c)});(j.qpool||[]).forEach(x=>{if(!QP().some(y=>y.text===x.text))QP().push(x)});save();toast('已合并导入'+(sk?'，跳过重复 '+sk+' 张':''))})}}
 
 /* ===== 转账 / 红包 ===== */
 const AMT=[5.2,13.14,20,52,66,88,131.4,200,520];
@@ -919,7 +1018,7 @@ function media(t){if(!('mediaSession' in navigator))return;try{navigator.mediaSe
 function keepSet(){
   if(G.sys.keep){if(!ka){ka=new Audio(silent());ka.loop=true}ka.play().catch(()=>{});media()}else if(ka)ka.pause()}
 addEventListener('pointerdown',()=>{if(G.sys.keep&&(!ka||ka.paused))keepSet()},{passive:true});
-function pv(m){return m.type==='image'?'[图片]':m.type==='transfer'?'[转账]':m.type==='redpacket'?'[红包]':m.text||''}
+function pv(m){return m.type==='quizq'?'[问卷] 对方发来一份问卷':m.type==='quiz'?'[问卷]':m.type==='image'?'[图片]':m.type==='transfer'?'[转账]':m.type==='redpacket'?'[红包]':m.text||''}
 function banner(t,g){
   $('bn').innerHTML=`<div class="av">${avHtml(G.prof.avatar)}</div><div style="min-width:0"><b>${esc(G.prof.name)}</b><div class="bt">${esc(t)}</div></div>`;
   $('bn').dataset.go=g||'chat';$('bn').classList.add('on');clearTimeout(banner.t);banner.t=setTimeout(()=>$('bn').classList.remove('on'),3800)}
@@ -1033,6 +1132,7 @@ function tickTodoOut(){
   else try{const l=JSON.parse(localStorage.getItem('zkhome_lite')||'null');if(l)G={...G,...l}}catch(e){}
   G.cfg={...DEF_CFG,...G.cfg};G.letters=G.letters||[];G.diary=G.diary||[];
   applyLook();homeInit();badge();momNorm();momBadge();tickLetters();tickLetterOut();tickDiary();tickTodoOut();tickMom();tickMomOut();
+  tickQuiz();setInterval(tickQuiz,1000);
   setInterval(()=>{tickLetters();tickLetterOut();tickDiary();tickTodoOut();tickMom();tickMomOut()},20000);
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){tickLetters();tickLetterOut();tickDiary();tickTodoOut();tickMom();tickMomOut()}});
   G.msgs.filter(m=>m.mine&&m.status==='pending').forEach(settle);
