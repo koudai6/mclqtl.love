@@ -3,7 +3,7 @@
   "short_name": "字卡",
   "start_url": "./index.html",
   "scope": "./",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "background_color": "#dce9f6",
   "theme_color": "#dce9f6",

@@ -12,11 +12,20 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
 <meta name="theme-color" content="#dce9f6">
+<script>
+(function(){var r=document.documentElement;
+function f(){var h=innerHeight,sa=navigator.standalone||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches;
+if(sa&&innerHeight>innerWidth&&screen.height>h&&screen.height-h<120)h=screen.height;
+r.style.setProperty('--appH',h+'px')}
+f();addEventListener('resize',f);addEventListener('orientationchange',function(){setTimeout(f,300)});addEventListener('pageshow',f);
+document.addEventListener('visibilitychange',function(){setTimeout(f,120)})})();
+</script>
 <style>
 :root{--ink:#3d5a80;--ink2:#7d93b2;--acc:#d97b9b;--glass:rgba(255,255,255,.55);--line:rgba(255,255,255,.7);--sh:0 8px 28px rgba(110,150,200,.22)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;font-family:"Songti SC","SimSun","STSong","宋体",serif;color:var(--ink);background:#dce9f6}
-body{background:linear-gradient(160deg,#e9f1fb 0%,#cfe0f3 45%,#e8dff0 100%)}
+html{height:var(--appH,100%);background:#e8dff0}
+html,body{overflow:hidden;font-family:"Songti SC","SimSun","STSong","宋体",serif;color:var(--ink);background:#dce9f6}
+body{position:fixed;left:0;top:0;width:100%;height:var(--appH,100%);background:linear-gradient(160deg,#e9f1fb 0%,#cfe0f3 45%,#e8dff0 100%)}
 button,input,textarea{font:inherit;color:inherit;border:0;background:none;outline:0}
 .glass{background:var(--glass);border:1px solid var(--line);box-shadow:var(--sh);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 #home{position:absolute;inset:0;padding:calc(env(safe-area-inset-top) + 18px) 16px calc(env(safe-area-inset-bottom) + 16px);display:flex;flex-direction:column;gap:18px;overflow:auto}
@@ -65,7 +74,7 @@ button,input,textarea{font:inherit;color:inherit;border:0;background:none;outlin
 .chip.on{background:var(--ink);color:#fff}
 .ta{width:100%;min-height:120px;padding:12px;border-radius:18px;background:rgba(255,255,255,.7);font-size:15px;line-height:1.6;resize:vertical;margin-bottom:10px}
 .ti{width:100%;padding:11px 14px;border-radius:16px;background:rgba(255,255,255,.7);margin-bottom:10px;font-size:15px}
-.mask{position:fixed;inset:0;background:rgba(60,80,110,.28);z-index:20;display:none;align-items:center;justify-content:center;padding:24px}
+.mask{position:fixed;left:0;top:0;width:100%;height:var(--appH,100%);background:rgba(60,80,110,.28);z-index:20;display:none;align-items:center;justify-content:center;padding:24px}
 .mask.on{display:flex}.mask .box{width:100%;max-width:340px;border-radius:26px;padding:18px;background:rgba(244,249,255,.92);max-height:80%;overflow:auto}
 .sheet{display:flex;flex-direction:column;gap:8px}
 .sheet .btn{text-align:center}
@@ -208,8 +217,8 @@ button,input,textarea{font:inherit;color:inherit;border:0;background:none;outlin
 .mp .mx{margin-top:8px;border-radius:4px;background:rgba(125,147,178,.18);padding:6px 8px}
 .mp .mx .ml{color:#576b95;margin-bottom:2px}
 .mc b{color:#576b95;font-weight:600}
-#bn{position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 8px);z-index:40;border-radius:22px;padding:10px 14px;display:flex;gap:10px;align-items:center;transform:translateY(-160%);transition:.35s;background:rgba(244,249,255,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:var(--sh)}
-#bn.on{transform:none}
+#bn{position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 8px);z-index:40;border-radius:22px;padding:10px 14px;display:flex;gap:10px;align-items:center;transform:translateY(calc(-100% - env(safe-area-inset-top) - 30px));opacity:0;pointer-events:none;transition:.35s;background:rgba(244,249,255,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:var(--sh)}
+#bn.on{transform:none;opacity:1;pointer-events:auto}
 .bt{font-size:13px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sec{font-size:13px;color:var(--ink2);letter-spacing:.25em;margin:14px 8px 8px}
 
